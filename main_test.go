@@ -44,8 +44,8 @@ func TestRoutesRegistered(t *testing.T) {
 		rec := httptest.NewRecorder()
 		req := httptest.NewRequest(c.method, c.path, nil)
 		h.ServeHTTP(rec, req)
-		if rec.Code == http.StatusNotFound {
-			t.Errorf("%s %s returned 404, route not registered", c.method, c.path)
+		if rec.Code == http.StatusNotFound && strings.Contains(rec.Body.String(), "404 page not found") {
+			t.Errorf("%s %s returned mux 404, route not registered", c.method, c.path)
 		}
 	}
 }
