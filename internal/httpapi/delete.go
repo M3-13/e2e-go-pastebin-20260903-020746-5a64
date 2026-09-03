@@ -8,6 +8,11 @@ import (
 
 func DeleteHandler(s *store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		writeError(w, http.StatusNotImplemented, "not implemented")
+		id := r.PathValue("id")
+		if !s.Delete(id) {
+			writeError(w, http.StatusNotFound, "paste not found")
+			return
+		}
+		w.WriteHeader(http.StatusNoContent)
 	}
 }
